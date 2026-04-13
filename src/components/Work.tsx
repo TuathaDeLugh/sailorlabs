@@ -133,7 +133,7 @@ export default function Work() {
               </div>
 
               {/* Content */}
-              <div className="p-6 sm:p-7">
+              <div className="p-6 sm:p-8">
                 <span className="text-xs font-semibold uppercase tracking-[0.15em]" style={{ color: project.gradientFrom }}>
                   {project.category}
                 </span>

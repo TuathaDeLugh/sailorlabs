@@ -1,130 +1,307 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { useTheme, type ThemeMode } from '../context/ThemeContext';
 
-const navLinks = [
-  { label: 'Services', href: '#services' },
-  { label: 'Work', href: '#work' },
-  { label: 'Process', href: '#process' },
+/* ─── Nav links ─── */
+const NAV_LINKS = [
+  { label: 'Products', href: '#products' },
+  { label: 'Testimonials', href: '#testimonials' },
   { label: 'Contact', href: '#contact' },
 ];
 
-export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+function scrollTo(href: string) {
+  document.querySelector(href)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ─── Brand mark ─── */
+function BrandMark() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+      <circle cx="15" cy="15" r="13" stroke="var(--color-primary)" strokeWidth="2" />
+      <path d="M9 20 L15 8 L21 20" stroke="var(--color-primary-dark)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M10.5 17h9" stroke="var(--color-cta)" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/* ─── Theme toggle ─── */
+const THEME_OPTIONS: { mode: ThemeMode; label: string; icon: React.ReactNode }[] = [
+  {
+    mode: 'light',
+    label: 'Light',
+    icon: (
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+      </svg>
+    ),
+  },
+  {
+    mode: 'system',
+    label: 'System',
+    icon: (
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
+        <rect x="2" y="3" width="20" height="14" rx="2" />
+        <path d="M8 21h8M12 17v4" />
+      </svg>
+    ),
+  },
+  {
+    mode: 'dark',
+    label: 'Dark',
+    icon: (
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
+        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z" />
+      </svg>
+    ),
+  },
+];
+
+function ThemeToggle() {
+  const { mode, setMode } = useTheme();
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener('scroll', onScroll);
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  const current = THEME_OPTIONS.find((o) => o.mode === mode) ?? THEME_OPTIONS[1];
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen((p) => !p)}
+        aria-label={`Theme: ${current.label}`}
+        aria-expanded={open}
+        aria-haspopup="true"
+        className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-bg-card)] text-[var(--color-text-muted)] shadow-[var(--shadow-neu-sm)] transition-[border-color,color] duration-200 hover:border-[var(--color-primary)] hover:text-[var(--color-text)]"
+      >
+        {current.icon}
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            role="menu"
+            aria-label="Theme options"
+            initial={{ opacity: 0, y: -6, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -6, scale: 0.95 }}
+            transition={{ duration: 0.18, ease: 'easeOut' }}
+            className="absolute right-0 top-[calc(100%+10px)] z-[200] flex min-w-[140px] flex-col gap-0.5 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-1.5 shadow-[var(--shadow-neu)]"
+          >
+            {THEME_OPTIONS.map((opt) => (
+              <button
+                key={opt.mode}
+                role="menuitem"
+                onClick={() => { setMode(opt.mode); setOpen(false); }}
+                aria-label={opt.label}
+                className={`flex w-full cursor-pointer items-center gap-2.5 whitespace-nowrap rounded-xl border-none px-3 py-2 text-left font-body text-sm transition-[background,color] duration-150 ${
+                  mode === opt.mode
+                    ? 'bg-[var(--color-primary-light)] font-semibold text-[var(--color-text)]'
+                    : 'bg-transparent text-[var(--color-text-muted)] hover:bg-[var(--color-bg)] hover:text-[var(--color-text)]'
+                }`}
+              >
+                {opt.icon}
+                {opt.label}
+                {mode === opt.mode && (
+                  <svg className="ml-auto" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--color-secondary-dark)" strokeWidth="3" aria-hidden="true">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                )}
+              </button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+/* ─── Desktop nav link ─── */
+function NavLink({ href, label }: { href: string; label: string }) {
+  return (
+    <button
+      onClick={() => scrollTo(href)}
+      className="cursor-pointer whitespace-nowrap rounded-lg border-none bg-transparent px-3.5 py-2 font-body text-sm font-medium tracking-wide text-[var(--color-text-muted)] transition-[color,background] duration-200 hover:bg-[var(--color-bg)] hover:text-[var(--color-text)]"
+    >
+      {label}
+    </button>
+  );
+}
+
+/* ─── Main Navbar ─── */
+export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 48);
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
+
+  const handleMobileLink = (href: string) => {
+    setMenuOpen(false);
+    setTimeout(() => scrollTo(href), 80);
+  };
+
   return (
     <>
-      <motion.nav
-        initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled
-            ? 'bg-[#06060a]/80 backdrop-blur-xl border-b border-white/5 shadow-2xl shadow-black/30'
-            : 'bg-transparent'
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between h-18">
-          {/* Logo */}
-          <a href="#" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-accent-400 to-cyan-400 flex items-center justify-center font-bold text-white text-lg font-[var(--font-display)] shadow-lg shadow-accent-400/20 group-hover:shadow-accent-400/40 transition-shadow">
-              S
-            </div>
-            <span className="text-xl font-semibold text-white font-[var(--font-display)] tracking-tight">
-              sailor<span className="text-accent-500">labs</span>
+      {/* ── Full-width fixed strip — transparent, no interaction ── */}
+      <div className="fixed inset-x-0 top-3.5 z-[100] px-3.5">
+        <motion.header
+          initial={{ y: -72, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.55, ease: 'easeOut', delay: 0.05 }}
+          role="banner"
+          className={`mx-auto flex h-[58px] max-w-[1200px] items-center justify-between gap-4 rounded-2xl border border-[var(--color-border)] px-5 backdrop-blur-[18px] transition-[background,box-shadow] duration-300 md:px-6 ${
+            scrolled
+              ? 'bg-[var(--nav-bg-scrolled)] shadow-[var(--nav-shadow)]'
+              : 'bg-[var(--nav-bg)] shadow-[var(--shadow-neu-sm)]'
+          }`}
+        >
+          {/* Brand */}
+          <a
+            href="#"
+            onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            aria-label="Sailor Labs – back to top"
+            className="flex shrink-0 items-center gap-2 no-underline"
+          >
+            <BrandMark />
+            <span className="font-heading text-xl font-semibold leading-none tracking-wide text-[var(--color-text)]">
+              Sailor Labs
             </span>
           </a>
 
-          {/* Desktop Links */}
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="px-4 py-2 text-sm text-dark-200 hover:text-white rounded-lg hover:bg-white/5 transition-all duration-300"
-              >
-                {link.label}
-              </a>
+          {/* Desktop nav */}
+          <nav
+            aria-label="Primary navigation"
+            className="hidden flex-1 items-center justify-center gap-0.5 md:flex"
+          >
+            {NAV_LINKS.map((link) => (
+              <NavLink key={link.href} href={link.href} label={link.label} />
             ))}
-          </div>
+          </nav>
 
-          {/* CTA Button */}
-          <div className="hidden md:block">
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-white bg-gradient-to-r from-accent-400 to-accent-500 rounded-xl hover:shadow-lg hover:shadow-accent-400/25 transition-all duration-300 hover:-translate-y-0.5"
+          {/* Right actions */}
+          <div className="flex shrink-0 items-center gap-2">
+            <ThemeToggle />
+
+            {/* Desktop CTA */}
+            <motion.button
+              onClick={() => scrollTo('#contact')}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              className="btn-cta hidden !py-[0.55rem] !px-5 !text-[0.78rem] md:inline-flex"
             >
-              Start a Project
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </a>
-          </div>
+              Get in Touch
+            </motion.button>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 rounded-lg hover:bg-white/5 transition-colors"
-            aria-label="Toggle menu"
-          >
-            <motion.span
-              animate={mobileOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
-              className="block w-5 h-0.5 bg-white rounded-full"
-            />
-            <motion.span
-              animate={mobileOpen ? { opacity: 0 } : { opacity: 1 }}
-              className="block w-5 h-0.5 bg-white rounded-full"
-            />
-            <motion.span
-              animate={mobileOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
-              className="block w-5 h-0.5 bg-white rounded-full"
-            />
-          </button>
-        </div>
-      </motion.nav>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-dark-900/95 backdrop-blur-2xl pt-24 px-6 md:hidden"
-          >
-            <div className="flex flex-col gap-2">
-              {navLinks.map((link, i) => (
-                <motion.a
-                  key={link.label}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.08 }}
-                  className="text-2xl font-medium text-white py-3 border-b border-white/5 hover:text-accent-500 transition-colors"
-                >
-                  {link.label}
-                </motion.a>
-              ))}
-              <motion.a
-                href="#contact"
-                onClick={() => setMobileOpen(false)}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35 }}
-                className="mt-6 text-center py-4 bg-gradient-to-r from-accent-400 to-accent-500 rounded-xl text-white font-medium text-lg"
+            {/* Mobile hamburger */}
+            <button
+              onClick={() => setMenuOpen((p) => !p)}
+              className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-[10px] border border-[var(--color-border)] bg-[var(--color-bg-card)] text-[var(--color-text)] shadow-[var(--shadow-neu-sm)] transition-[background,border-color] duration-200 md:hidden"
+              aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-nav"
+            >
+              <motion.div
+                animate={menuOpen ? 'open' : 'closed'}
+                className="flex w-4 flex-col gap-[5px]"
               >
-                Start a Project
-              </motion.a>
+                <motion.span
+                  variants={{ closed: { rotate: 0, y: 0 }, open: { rotate: 45, y: 7 } }}
+                  transition={{ duration: 0.22 }}
+                  className="block h-[1.8px] origin-center rounded-sm bg-current"
+                />
+                <motion.span
+                  variants={{ closed: { opacity: 1, scaleX: 1 }, open: { opacity: 0, scaleX: 0 } }}
+                  transition={{ duration: 0.18 }}
+                  className="block h-[1.8px] origin-center rounded-sm bg-current"
+                />
+                <motion.span
+                  variants={{ closed: { rotate: 0, y: 0 }, open: { rotate: -45, y: -7 } }}
+                  transition={{ duration: 0.22 }}
+                  className="block h-[1.8px] origin-center rounded-sm bg-current"
+                />
+              </motion.div>
+            </button>
+          </div>
+        </motion.header>
+      </div>
+
+      {/* ── Mobile menu ── */}
+      <AnimatePresence>
+        {menuOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              key="backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.22 }}
+              onClick={() => setMenuOpen(false)}
+              aria-hidden="true"
+              className="fixed inset-0 z-[98] bg-black/25 backdrop-blur-sm"
+            />
+
+            {/* Drawer — same width constraint as the header */}
+            <div className="fixed inset-x-0 z-[99] px-3.5 top-[calc(0.875rem+58px+0.5rem)]">
+              <motion.nav
+                key="mobile-nav"
+                id="mobile-nav"
+                initial={{ opacity: 0, y: -12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.25, ease: 'easeOut' }}
+                aria-label="Mobile navigation"
+                className="mx-auto flex max-w-[1200px] flex-col gap-1 rounded-2xl border border-[var(--color-border)] bg-[var(--nav-mobile-bg)] p-4 shadow-[var(--shadow-neu)]"
+              >
+                {NAV_LINKS.map((link, i) => (
+                  <motion.button
+                    key={link.href}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.05, duration: 0.2, ease: 'easeOut' }}
+                    onClick={() => handleMobileLink(link.href)}
+                    className="flex w-full cursor-pointer items-center justify-between rounded-xl border-none bg-transparent px-4 py-3 text-left font-body text-base font-medium text-[var(--color-text-muted)] transition-[background,color] duration-150 hover:bg-[var(--color-bg)] hover:text-[var(--color-text)]"
+                  >
+                    {link.label}
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                      <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                  </motion.button>
+                ))}
+
+                <div className="my-1 h-px bg-[var(--color-border)]" aria-hidden="true" />
+
+                <motion.button
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: NAV_LINKS.length * 0.05 + 0.05, duration: 0.22 }}
+                  onClick={() => handleMobileLink('#contact')}
+                  className="btn-cta w-full !justify-center"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                    <path d="m22 2-7 20-4-9-9-4 20-7z" /><path d="M22 2 11 13" />
+                  </svg>
+                  Get in Touch
+                </motion.button>
+              </motion.nav>
             </div>
-          </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>

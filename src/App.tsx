@@ -1,24 +1,25 @@
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Services from './components/Services';
-import Work from './components/Work';
-import Process from './components/Process';
+import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
 function App() {
   return (
-    <div className="min-h-screen bg-dark-900">
+    <>
       <Navbar />
-      <main>
+      <main id="main-content">
         <Hero />
+        {/* id="products" lives inside Services for nav anchor */}
         <Services />
-        <Work />
-        <Process />
+        {/* id="features" alias — scrolls to products */}
+        <div id="features" style={{ marginTop: '-1px' }} aria-hidden="true" />
+        <Testimonials />
         <Contact />
       </main>
       <Footer />
-    </div>
+    </>
   );
 }
 

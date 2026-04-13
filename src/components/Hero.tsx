@@ -1,175 +1,244 @@
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 
-const floatingOrbs = [
-  { size: 600, x: '65%', y: '-5%', color: 'rgba(99,102,241,0.12)', blur: 140 },
-  { size: 500, x: '-5%', y: '25%', color: 'rgba(34,211,238,0.08)', blur: 120 },
-  { size: 400, x: '85%', y: '65%', color: 'rgba(168,85,247,0.1)', blur: 100 },
-];
+function FloatingShape({ className, delay }: { className: string; delay: number }) {
+  return (
+    <motion.div
+      aria-hidden="true"
+      initial={{ opacity: 0, scale: 0.6 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 1.6, delay, ease: [0.22, 1, 0.36, 1] }}
+      className={`pointer-events-none absolute ${className}`}
+      style={{ borderRadius: '62% 38% 70% 30% / 46% 54% 46% 54%' }}
+    />
+  );
+}
 
-const techBadges = [
-  { name: 'React', icon: '⚛️' },
-  { name: 'Next.js', icon: '▲' },
-  { name: 'TypeScript', icon: '𝗧𝗦' },
-  { name: 'Node.js', icon: '⬢' },
-  { name: 'Flutter', icon: '◆' },
-  { name: 'AI / ML', icon: '🧠' },
+function CodeBadge({ children }: { children: React.ReactNode }) {
+  return (
+    <motion.span
+      whileHover={{ scale: 1.05, y: -2 }}
+      className="inline-flex cursor-default items-center gap-1.5 whitespace-nowrap rounded-md border border-[var(--color-border)] bg-[var(--color-bg-elevated)] px-2.5 py-1 font-mono text-xs text-[var(--color-secondary-dark)] shadow-[var(--shadow-neu-sm)] transition-shadow duration-200 hover:shadow-[var(--shadow-neu)]"
+    >
+      {children}
+    </motion.span>
+  );
+}
+
+function ScrollIndicator() {
+  return (
+    <motion.button
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 2, duration: 0.7 }}
+      onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })}
+      aria-label="Scroll to products"
+      className="absolute bottom-8 left-1/2 -translate-x-1/2 flex cursor-pointer flex-col items-center gap-1.5 border-none bg-transparent p-2"
+    >
+      <span className="font-body text-[0.68rem] uppercase tracking-[0.18em] text-[var(--color-text-subtle)]">
+        Explore
+      </span>
+      <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-subtle)" strokeWidth="2" aria-hidden="true">
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </motion.div>
+    </motion.button>
+  );
+}
+
+// Animated counter
+function Counter({ to, suffix = '' }: { to: number; suffix?: string }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef<HTMLParagraphElement>(null);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !started.current) {
+        started.current = true;
+        const start = performance.now();
+        const duration = 1400;
+        const tick = (now: number) => {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          setCount(Math.round(eased * to));
+          if (progress < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }
+    });
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, [to]);
+
+  return (
+    <p ref={ref} className="font-heading text-[1.55rem] font-semibold leading-none text-[var(--color-text)]">
+      {count}{suffix}
+    </p>
+  );
+}
+
+const FADE_UP = {
+  hidden: { opacity: 0, y: 32 },
+  visible: (delay = 0) => ({
+    opacity: 1, y: 0,
+    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const, delay },
+  }),
+};
+
+const STATS = [
+  { value: 3, suffix: '', label: 'Live Products' },
+  { value: 100, suffix: '+', label: 'Active Users' },
+  { value: 3, suffix: '', label: 'OSS Projects' },
+  { value: 100, suffix: '%', label: 'Open Source' },
 ];
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Orbs */}
-      {floatingOrbs.map((orb, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full pointer-events-none"
-          style={{
-            width: orb.size,
-            height: orb.size,
-            left: orb.x,
-            top: orb.y,
-            background: `radial-gradient(circle, ${orb.color} 0%, transparent 70%)`,
-            filter: `blur(${orb.blur}px)`,
-          }}
-          animate={{
-            x: [0, 30, -20, 0],
-            y: [0, -25, 20, 0],
-          }}
-          transition={{
-            duration: 14 + i * 4,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-        />
-      ))}
+    <section
+      id="hero"
+      aria-labelledby="hero-heading"
+      className="relative flex min-h-svh items-center justify-center overflow-hidden bg-[var(--color-bg)] px-6 pb-20 pt-24 transition-colors duration-300"
+    >
+      {/* Background shapes */}
+      <FloatingShape
+        delay={0.15}
+        className="h-[620px] w-[620px] -right-52 -top-40 bg-gradient-to-br from-[rgba(232,180,184,0.2)] to-[rgba(168,213,186,0.12)] blur-sm"
+      />
+      <FloatingShape
+        delay={0.35}
+        className="h-[380px] w-[380px] -bottom-24 -left-28 bg-gradient-to-br from-[rgba(168,213,186,0.16)] to-[rgba(212,175,55,0.1)] blur-sm"
+      />
+      <FloatingShape
+        delay={0.5}
+        className="h-44 w-44 left-[6%] top-[36%] bg-[rgba(212,175,55,0.06)]"
+      />
 
       {/* Subtle grid overlay */}
       <div
-        className="absolute inset-0 opacity-[0.02]"
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-[0.025]"
         style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px)`,
-          backgroundSize: '80px 80px',
+          backgroundImage: 'linear-gradient(var(--color-text) 1px, transparent 1px), linear-gradient(90deg, var(--color-text) 1px, transparent 1px)',
+          backgroundSize: '64px 64px',
         }}
       />
 
-      {/* Radial vignette */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#06060a_75%)]" />
-
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#06060a] to-transparent" />
-
       {/* Content */}
-      <div className="relative z-10 max-w-5xl mx-auto px-6 text-center pt-24 pb-16">
-        {/* Badge */}
+      <div className="relative z-10 mx-auto w-full max-w-[880px] text-center">
+
+        {/* Badges */}
         <motion.div
-          initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
-          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-white/[0.04] border border-white/[0.08] mb-10 backdrop-blur-sm"
+          variants={FADE_UP} initial="hidden" animate="visible" custom={0.1}
+          className="mb-5 flex flex-wrap justify-center gap-2"
         >
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400" />
+          <span className="tag">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="var(--color-cta)" aria-hidden="true"><circle cx="12" cy="12" r="10" /></svg>
+            Open Source
           </span>
-          <span className="text-sm text-dark-200 font-medium">Now accepting new projects for 2026</span>
+          <span className="tag">3 Live Products</span>
+          <span className="tag">MIT License</span>
         </motion.div>
 
-        {/* Heading */}
-        <motion.h1
-          initial={{ opacity: 0, y: 40, filter: 'blur(10px)' }}
-          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-          transition={{ duration: 1, delay: 0.35 }}
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-bold tracking-[-0.03em] leading-[1.08] text-white"
-          style={{ fontFamily: 'var(--font-display)' }}
-        >
-          We Build{' '}
-          <span className="bg-gradient-to-r from-[#818cf8] via-[#22d3ee] to-[#a78bfa] bg-clip-text text-transparent">
-            Revolutionary
-          </span>
-          <br />
-          Web Experiences
-        </motion.h1>
-
-        {/* Sub-heading */}
+        {/* Eyebrow */}
         <motion.p
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.6 }}
-          className="mt-8 text-lg sm:text-xl text-[#8a8aaa] max-w-2xl mx-auto leading-relaxed"
+          variants={FADE_UP} initial="hidden" animate="visible" custom={0.2}
+          className="mb-2 block font-body text-[0.72rem] font-bold uppercase tracking-[0.2em] text-[var(--color-primary-dark)]"
         >
-          From concept to deployment — we craft high-performance web apps, 
-          stunning interfaces, and scalable digital products that push the boundaries of what's possible.
+          Built with passion, shipped with purpose
         </motion.p>
 
-        {/* CTA Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 0.8 }}
-          className="mt-12 flex flex-col sm:flex-row gap-4 justify-center items-center"
+        {/* Headline */}
+        <motion.h1
+          id="hero-heading"
+          variants={FADE_UP} initial="hidden" animate="visible" custom={0.3}
+          className="mb-5 font-heading text-5xl font-medium leading-[1.08] tracking-[-0.015em] text-[var(--color-text)] md:text-6xl lg:text-7xl"
         >
-          <a
-            href="#contact"
-            className="group relative inline-flex items-center justify-center gap-3 px-9 py-4.5 text-base font-semibold text-white rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-0.5 hover:shadow-[0_20px_60px_-15px_rgba(99,102,241,0.4)]"
+          Software that&nbsp;
+          <motion.span
+            className="italic text-[var(--color-primary-dark)]"
+            animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
+            transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
           >
-            {/* Gradient background */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#6366f1] to-[#818cf8] transition-all duration-500" />
-            {/* Shine effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-            <span className="relative">Let's Build Together</span>
-            <svg className="relative w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </a>
-          <a
-            href="#work"
-            className="inline-flex items-center justify-center gap-2.5 px-9 py-4.5 text-base font-medium text-white/90 bg-white/[0.04] border border-white/[0.1] rounded-2xl hover:bg-white/[0.08] hover:border-white/[0.18] transition-all duration-400 backdrop-blur-sm"
-          >
-            <span>View Our Work</span>
-            <svg className="w-4 h-4 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-          </a>
+            sets sail
+          </motion.span>
+        </motion.h1>
+
+        {/* Sub */}
+        <motion.p
+          variants={FADE_UP} initial="hidden" animate="visible" custom={0.42}
+          className="mx-auto mb-8 max-w-[600px] font-body text-base leading-[1.8] text-[var(--color-text-muted)] md:text-lg"
+        >
+          Sailor Labs ships open-source tools and web apps that solve real problems simply — no bloat,
+          no vendor lock-in, and no unnecessary complexity.
+        </motion.p>
+
+        {/* Code badges */}
+        <motion.div
+          variants={FADE_UP} initial="hidden" animate="visible" custom={0.5}
+          className="mb-8 flex flex-wrap justify-center gap-2"
+        >
+          <CodeBadge>🔧 EJS Viewer</CodeBadge>
+          <CodeBadge>💬 Vibe Message</CodeBadge>
+          <CodeBadge>✍️ BlogForge</CodeBadge>
         </motion.div>
 
-        {/* Tech Badges */}
+        {/* CTAs */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.2, delay: 1.1 }}
-          className="mt-20 flex flex-wrap justify-center gap-3"
+          variants={FADE_UP} initial="hidden" animate="visible" custom={0.6}
+          className="flex flex-wrap items-center justify-center gap-4"
         >
-          {techBadges.map((badge, i) => (
+          <motion.a
+            href="#products"
+            className="btn-cta"
+            whileHover={{ scale: 1.05, boxShadow: '0 8px 32px rgba(212,175,55,0.45)' }}
+            whileTap={{ scale: 0.96 }}
+            onClick={(e) => { e.preventDefault(); document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' }); }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+            Explore Products
+          </motion.a>
+
+          <motion.a
+            href="https://github.com/sailorlabs"
+            rel="noopener noreferrer"
+            target="_blank"
+            className="btn-outline"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.96 }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <path d="M15 22v-4a5 5 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65S9 17.44 9 18v4" />
+              <path d="M9 18c-4.51 2-5-2-7-2" />
+            </svg>
+            View on GitHub
+          </motion.a>
+        </motion.div>
+
+        {/* Stats */}
+        <motion.div
+          variants={FADE_UP} initial="hidden" animate="visible" custom={0.74}
+          className="mt-14 flex flex-wrap justify-center gap-3"
+        >
+          {STATS.map((stat) => (
             <motion.div
-              key={badge.name}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 1.2 + i * 0.08, type: 'spring', stiffness: 200 }}
-              className="group flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-[#7a7a99] bg-white/[0.02] border border-white/[0.06] rounded-xl hover:bg-white/[0.06] hover:border-white/[0.12] hover:text-white/80 transition-all duration-300 cursor-default"
+              key={stat.label}
+              whileHover={{ y: -4, transition: { duration: 0.2 } }}
+              className="neu-card-sm min-w-[104px] px-5 py-4 text-center"
             >
-              <span className="text-xs opacity-60 group-hover:opacity-100 transition-opacity">{badge.icon}</span>
-              {badge.name}
+              <Counter to={stat.value} suffix={stat.suffix} />
+              <p className="mt-1 font-body text-[0.67rem] uppercase tracking-[0.09em] text-[var(--color-text-muted)]">
+                {stat.label}
+              </p>
             </motion.div>
           ))}
         </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.8 }}
-          className="mt-24 flex flex-col items-center gap-3"
-        >
-          <span className="text-xs text-[#4a4a66] uppercase tracking-[0.2em]">Scroll to explore</span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-            className="w-6 h-10 rounded-full border-2 border-[#2e2e44] flex items-start justify-center pt-2"
-          >
-            <div className="w-1 h-2.5 bg-[#4a4a66] rounded-full" />
-          </motion.div>
-        </motion.div>
       </div>
+
+      <ScrollIndicator />
     </section>
   );
 }

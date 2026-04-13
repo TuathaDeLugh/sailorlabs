@@ -4,16 +4,47 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sailor Labs — Revolutionary Web Applications</title>
-    <meta name="description" content="Sailor Labs builds revolutionary, next-generation web applications that redefine digital experiences. We craft stunning, performant, and scalable solutions." />
-    <meta name="keywords" content="web development, web apps, sailorlabs, sailor labs, revolutionary apps, digital agency" />
-    <meta property="og:title" content="Sailor Labs — Revolutionary Web Applications" />
-    <meta property="og:description" content="We build revolutionary web apps that redefine digital experiences." />
+
+    <!-- Prevent flash-of-unstyled-theme on first paint -->
+    <script>
+      (function () {
+        var stored = localStorage.getItem('sl-theme');
+        var preferred = stored === 'dark' || stored === 'light'
+          ? stored
+          : window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', preferred);
+      })();
+    </script>
+
+    <!-- SEO -->
+    <title>Sailor Labs — Open-Source Developer Tools &amp; SDKs</title>
+    <meta
+      name="description"
+      content="Sailor Labs builds MIT-licensed developer tools — Helm Core, Tide Charts, Anchor CLI, Beacon Monitor, Voyage Router, and Keel Linter. Ship faster, own your stack."
+    />
+    <meta name="keywords" content="open source, developer tools, SDK, CLI, React, TypeScript, npm packages, self-hosted analytics, monorepo, CI/CD" />
+    <meta name="author" content="Sailor Labs" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Sailor Labs — Open-Source Developer Tools" />
+    <meta property="og:description" content="MIT-licensed tools and SDKs for engineering teams who value simplicity, ownership, and speed." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://sailorlabs.in" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@sailorlabs" />
+    <meta name="twitter:title" content="Sailor Labs — Open-Source Developer Tools" />
+    <meta name="twitter:description" content="MIT-licensed tools and SDKs for engineering teams." />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div id="root"></div>
