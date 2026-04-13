@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+/* ===== Custom Theme ===== */
+@theme {
+  --color-dark-900: #06060a;
+  --color-dark-800: #0d0d14;
+  --color-dark-700: #12121c;
+  --color-dark-600: #1a1a28;
+  --color-dark-500: #222233;
+  --color-dark-400: #2e2e44;
+  --color-dark-300: #4a4a66;
+  --color-dark-200: #7a7a99;
+  --color-dark-100: #b0b0cc;
+
+  --color-accent-400: #6366f1;
+  --color-accent-500: #818cf8;
+  --color-accent-600: #a5b4fc;
+
+  --color-cyan-400: #22d3ee;
+  --color-cyan-500: #06b6d4;
+
+  --color-violet-400: #a78bfa;
+  --color-violet-500: #8b5cf6;
+
+  --color-rose-400: #fb7185;
+  --color-rose-500: #f43f5e;
+
+  --color-emerald-400: #34d399;
+  --color-emerald-500: #10b981;
+
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+}
+
+/* ===== Base Styles ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-dark-900);
+  color: var(--color-dark-100);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-dark-800);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-dark-400);
+  border-radius: 3px;
+}
+
+/* ===== Selection ===== */
+::selection {
+  background: rgba(99, 102, 241, 0.3);
+  color: #fff;
+}
