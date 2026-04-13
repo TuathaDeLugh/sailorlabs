@@ -1,24 +1,65 @@
-import { useState } from 'react';
-import { motion } from 'motion/react';
+import { useState } from "react";
+import { motion } from "motion/react";
 
 function BrandMark() {
   return (
-    <svg width="22" height="22" viewBox="0 0 30 30" fill="none" aria-hidden="true">
-      <circle cx="15" cy="15" r="13" stroke="var(--color-primary)" strokeWidth="2" />
-      <path d="M9 20 L15 8 L21 20" stroke="var(--color-primary-dark)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M10.5 17h9" stroke="var(--color-cta)" strokeWidth="2" strokeLinecap="round" />
+    <svg
+      width="22"
+      height="22"
+      viewBox="0 0 30 30"
+      fill="none"
+      aria-hidden="true"
+    >
+      <circle
+        cx="15"
+        cy="15"
+        r="13"
+        stroke="var(--color-primary)"
+        strokeWidth="2"
+      />
+      <path
+        d="M9 20 L15 8 L21 20"
+        stroke="var(--color-primary-dark)"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M10.5 17h9"
+        stroke="var(--color-cta)"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
 
-function FooterLink({ href, children, external }: { href: string; children: React.ReactNode; external?: boolean }) {
+function FooterLink({
+  href,
+  children,
+  external,
+}: {
+  href: string;
+  children: React.ReactNode;
+  external?: boolean;
+}) {
   return (
     <li>
       <a
         href={href}
-        target={external ? '_blank' : undefined}
-        rel={external ? 'noopener noreferrer' : undefined}
-        onClick={!external ? (e) => { e.preventDefault(); if (href.startsWith('#')) document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' }); } : undefined}
+        target={external ? "_blank" : undefined}
+        rel={external ? "noopener noreferrer" : undefined}
+        onClick={
+          !external
+            ? (e) => {
+                e.preventDefault();
+                if (href.startsWith("#"))
+                  document
+                    .querySelector(href)
+                    ?.scrollIntoView({ behavior: "smooth" });
+              }
+            : undefined
+        }
         className="cursor-pointer font-body text-sm leading-[1.9] text-(--color-text-muted) no-underline transition-colors duration-200 hover:text-(--color-text)"
       >
         {children}
@@ -30,7 +71,7 @@ function FooterLink({ href, children, external }: { href: string; children: Reac
 const YEAR = new Date().getFullYear();
 
 export default function Footer() {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [subDone, setSubDone] = useState(false);
 
   return (
@@ -40,19 +81,28 @@ export default function Footer() {
     >
       <div className="mx-auto max-w-300">
         {/* Top grid */}
-        <div className="mb-11 grid gap-10" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))' }}>
+        <div
+          className="mb-11 grid gap-10"
+          style={{
+            gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
+          }}
+        >
           {/* Brand */}
           <div className="flex flex-col gap-3">
             <div className="flex items-center gap-2">
               <BrandMark />
-              <span className="font-heading text-xl font-semibold text-(--color-text)">Sailor Labs</span>
+              <span className="font-heading text-xl font-semibold text-(--color-text)">
+                Sailor Labs
+              </span>
             </div>
             <p className="max-w-57.5 font-body text-sm leading-relaxed text-(--color-text-muted)">
-              Open-source software and web tools built for real users. Simple, purposeful, and always free.
+              Open-source software and web tools built for real users. Simple,
+              purposeful, and always free.
             </p>
             <a
               href="https://github.com/sailorlabs"
-              target="_blank" rel="noopener noreferrer"
+              target="_blank"
+              rel="noopener noreferrer"
               className="tag w-fit cursor-pointer no-underline"
             >
               Open Source · MIT
@@ -61,28 +111,42 @@ export default function Footer() {
 
           {/* Products */}
           <div>
-            <p className="mb-2 font-body text-[0.7rem] font-bold uppercase tracking-[0.14em] text-(--color-text)">Products</p>
+            <p className="mb-2 font-body text-[0.7rem] font-bold uppercase tracking-[0.14em] text-(--color-text)">
+              Products
+            </p>
             <ul className="list-none">
-              <FooterLink href="https://ejsviewer.sailorlabs.in/" external>EJS Viewer</FooterLink>
-              <FooterLink href="https://vibemessage.sailorlabs.in/" external>Vibe Message</FooterLink>
-              <FooterLink href="https://blogforge.in/" external>BlogForge</FooterLink>
+              <FooterLink href="https://ejsviewer.sailorlabs.in/" external>
+                EJS Viewer
+              </FooterLink>
+              <FooterLink href="https://vibemessage.sailorlabs.in/" external>
+                Vibe Message
+              </FooterLink>
+              <FooterLink href="https://blogforge.in/" external>
+                BlogForge
+              </FooterLink>
             </ul>
           </div>
 
           {/* Company */}
           <div>
-            <p className="mb-2 font-body text-[0.7rem] font-bold uppercase tracking-[0.14em] text-(--color-text)">Company</p>
+            <p className="mb-2 font-body text-[0.7rem] font-bold uppercase tracking-[0.14em] text-(--color-text)">
+              Company
+            </p>
             <ul className="list-none">
               <FooterLink href="#products">Our Products</FooterLink>
               <FooterLink href="#testimonials">Testimonials</FooterLink>
               <FooterLink href="#contact">Contact Us</FooterLink>
-              <FooterLink href="https://github.com/sailorlabs" external>GitHub</FooterLink>
+              <FooterLink href="https://github.com/sailorlabs" external>
+                GitHub
+              </FooterLink>
             </ul>
           </div>
 
           {/* Newsletter */}
           <div>
-            <p className="mb-2 font-body text-[0.7rem] font-bold uppercase tracking-[0.14em] text-(--color-text)">Stay Updated</p>
+            <p className="mb-2 font-body text-[0.7rem] font-bold uppercase tracking-[0.14em] text-(--color-text)">
+              Stay Updated
+            </p>
             <p className="mb-3 font-body text-sm leading-relaxed text-(--color-text-muted)">
               New products and updates — no spam, ever.
             </p>
@@ -107,11 +171,21 @@ export default function Footer() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => { if (email) setSubDone(true); }}
+                  onClick={() => {
+                    if (email) setSubDone(true);
+                  }}
                   className="btn-cta shrink-0 px-3.5! py-2.5! cursor-pointer"
                   aria-label="Subscribe"
                 >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    aria-hidden="true"
+                  >
                     <path d="M5 12h14M12 5l7 7-7 7" />
                   </svg>
                 </motion.button>
@@ -126,8 +200,10 @@ export default function Footer() {
             © {YEAR} Sailor Labs. All rights reserved. MIT License.
           </p>
           <div className="flex flex-wrap gap-5">
-            {['Privacy Policy', 'Terms of Service'].map((text) => (
-              <a key={text} href="#"
+            {["Privacy Policy", "Terms of Service"].map((text) => (
+              <a
+                key={text}
+                href="#"
                 className="cursor-pointer font-body text-[0.775rem] text-(--color-text-subtle) no-underline transition-colors duration-200 hover:text-(--color-text)"
               >
                 {text}

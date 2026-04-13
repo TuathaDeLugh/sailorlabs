@@ -1,37 +1,40 @@
-import { motion } from 'motion/react';
+import { motion } from "motion/react";
 
 const projects = [
   {
-    title: 'FinFlow Dashboard',
-    category: 'Fintech · Web App',
-    description: 'Real-time financial analytics platform with AI-powered insights, custom chart visualizations, and automated reporting.',
-    gradientFrom: '#6366f1',
-    gradientTo: '#a78bfa',
-    tags: ['React', 'Node.js', 'D3.js'],
+    title: "FinFlow Dashboard",
+    category: "Fintech · Web App",
+    description:
+      "Real-time financial analytics platform with AI-powered insights, custom chart visualizations, and automated reporting.",
+    gradientFrom: "#6366f1",
+    gradientTo: "#a78bfa",
+    tags: ["React", "Node.js", "D3.js"],
   },
   {
-    title: 'MediConnect',
-    category: 'Healthcare · Mobile App',
-    description: 'Telemedicine platform connecting patients with doctors via secure video consultations, e-prescriptions, and health tracking.',
-    gradientFrom: '#22d3ee',
-    gradientTo: '#34d399',
-    tags: ['Flutter', 'Firebase', 'WebRTC'],
+    title: "MediConnect",
+    category: "Healthcare · Mobile App",
+    description:
+      "Telemedicine platform connecting patients with doctors via secure video consultations, e-prescriptions, and health tracking.",
+    gradientFrom: "#22d3ee",
+    gradientTo: "#34d399",
+    tags: ["Flutter", "Firebase", "WebRTC"],
   },
   {
-    title: 'Artisan Marketplace',
-    category: 'E-Commerce · Full Stack',
-    description: 'Multi-vendor marketplace with AI-driven product recommendations, real-time inventory sync, and seamless payment processing.',
-    gradientFrom: '#fb7185',
-    gradientTo: '#fbbf24',
-    tags: ['Next.js', 'Stripe', 'PostgreSQL'],
+    title: "Artisan Marketplace",
+    category: "E-Commerce · Full Stack",
+    description:
+      "Multi-vendor marketplace with AI-driven product recommendations, real-time inventory sync, and seamless payment processing.",
+    gradientFrom: "#fb7185",
+    gradientTo: "#fbbf24",
+    tags: ["Next.js", "Stripe", "PostgreSQL"],
   },
 ];
 
 const stats = [
-  { value: '50+', label: 'Projects Shipped', icon: '🚀' },
-  { value: '99%', label: 'Client Satisfaction', icon: '⭐' },
-  { value: '3x', label: 'Faster Delivery', icon: '⚡' },
-  { value: '24/7', label: 'Support Coverage', icon: '🛡️' },
+  { value: "50+", label: "Projects Shipped", icon: "🚀" },
+  { value: "99%", label: "Client Satisfaction", icon: "⭐" },
+  { value: "3x", label: "Faster Delivery", icon: "⚡" },
+  { value: "24/7", label: "Support Coverage", icon: "🛡️" },
 ];
 
 export default function Work() {
@@ -45,7 +48,7 @@ export default function Work() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
+          viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7 }}
           className="text-center mb-16 sm:mb-20"
         >
@@ -54,15 +57,16 @@ export default function Work() {
           </span>
           <h2
             className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-[-0.02em]"
-            style={{ fontFamily: 'var(--font-display)' }}
+            style={{ fontFamily: "var(--font-display)" }}
           >
-            Crafted with{' '}
+            Crafted with{" "}
             <span className="bg-gradient-to-r from-[#22d3ee] to-[#34d399] bg-clip-text text-transparent">
               Precision
             </span>
           </h2>
           <p className="mt-5 text-lg text-[#7a7a99] max-w-2xl mx-auto leading-relaxed">
-            Every project is a story of innovation. Here's a glimpse of what we've built for our clients.
+            Every project is a story of innovation. Here's a glimpse of what
+            we've built for our clients.
           </p>
         </motion.div>
 
@@ -73,7 +77,7 @@ export default function Work() {
               key={project.title}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
+              viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: i * 0.12 }}
               className="group rounded-2xl sm:rounded-3xl overflow-hidden bg-[#0d0d14] border border-white/[0.06] hover:border-white/[0.12] transition-all duration-500 hover:shadow-2xl hover:shadow-black/40"
             >
@@ -88,8 +92,9 @@ export default function Work() {
                 <div
                   className="absolute inset-0 opacity-20"
                   style={{
-                    backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px)',
-                    backgroundSize: '24px 24px',
+                    backgroundImage:
+                      "radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px)",
+                    backgroundSize: "24px 24px",
                   }}
                 />
                 {/* Mock browser window */}
@@ -115,7 +120,12 @@ export default function Work() {
                         <div className="h-2 w-full bg-white/[0.06] rounded" />
                         <div className="h-2 w-3/4 bg-white/[0.04] rounded" />
                         <div className="h-2 w-1/2 bg-white/[0.04] rounded" />
-                        <div className="mt-3 h-16 w-full rounded-lg" style={{ background: `linear-gradient(135deg, ${project.gradientFrom}20, ${project.gradientTo}20)` }} />
+                        <div
+                          className="mt-3 h-16 w-full rounded-lg"
+                          style={{
+                            background: `linear-gradient(135deg, ${project.gradientFrom}20, ${project.gradientTo}20)`,
+                          }}
+                        />
                       </div>
                       <div className="flex-1">
                         <div className="h-full rounded-lg border border-white/[0.05] bg-white/[0.02] p-3">
@@ -134,12 +144,15 @@ export default function Work() {
 
               {/* Content */}
               <div className="p-6 sm:p-8">
-                <span className="text-xs font-semibold uppercase tracking-[0.15em]" style={{ color: project.gradientFrom }}>
+                <span
+                  className="text-xs font-semibold uppercase tracking-[0.15em]"
+                  style={{ color: project.gradientFrom }}
+                >
                   {project.category}
                 </span>
                 <h3
                   className="text-xl font-bold text-white mt-2 mb-3"
-                  style={{ fontFamily: 'var(--font-display)' }}
+                  style={{ fontFamily: "var(--font-display)" }}
                 >
                   {project.title}
                 </h3>
@@ -169,17 +182,19 @@ export default function Work() {
               initial={{ opacity: 0, y: 20, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1, type: 'spring', stiffness: 150 }}
+              transition={{ delay: i * 0.1, type: "spring", stiffness: 150 }}
               className="group text-center py-8 sm:py-10 px-4 rounded-2xl sm:rounded-3xl bg-[#0d0d14]/80 border border-white/[0.06] hover:border-white/[0.1] transition-all duration-300"
             >
               <div className="text-2xl mb-3">{stat.icon}</div>
               <div
                 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-[#818cf8] to-[#22d3ee] bg-clip-text text-transparent"
-                style={{ fontFamily: 'var(--font-display)' }}
+                style={{ fontFamily: "var(--font-display)" }}
               >
                 {stat.value}
               </div>
-              <div className="mt-2 text-sm text-[#4a4a66] font-medium">{stat.label}</div>
+              <div className="mt-2 text-sm text-[#4a4a66] font-medium">
+                {stat.label}
+              </div>
             </motion.div>
           ))}
         </div>
