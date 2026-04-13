@@ -79,7 +79,7 @@ function ThemeToggle() {
         aria-label={`Theme: ${current.label}`}
         aria-expanded={open}
         aria-haspopup="true"
-        className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full border border-[var(--color-border)] bg-[var(--color-bg-card)] text-[var(--color-text-muted)] shadow-[var(--shadow-neu-sm)] transition-[border-color,color] duration-200 hover:border-[var(--color-primary)] hover:text-[var(--color-text)]"
+        className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full border border-(--color-border) bg-(--color-bg-card) text-(--color-text-muted) shadow-(--shadow-neu-sm) transition-[border-color,color] duration-200 hover:border-(--color-primary) hover:text-(--color-text)"
       >
         {current.icon}
       </button>
@@ -93,7 +93,7 @@ function ThemeToggle() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -6, scale: 0.95 }}
             transition={{ duration: 0.18, ease: 'easeOut' }}
-            className="absolute right-0 top-[calc(100%+10px)] z-[200] flex min-w-[140px] flex-col gap-0.5 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-1.5 shadow-[var(--shadow-neu)]"
+            className="absolute right-0 top-[calc(100%+10px)] z-200 flex min-w-35 flex-col gap-0.5 rounded-2xl border border-(--color-border) bg-(--color-bg-elevated) p-1.5 shadow-(--shadow-neu)"
           >
             {THEME_OPTIONS.map((opt) => (
               <button
@@ -103,8 +103,8 @@ function ThemeToggle() {
                 aria-label={opt.label}
                 className={`flex w-full cursor-pointer items-center gap-2.5 whitespace-nowrap rounded-xl border-none px-3 py-2 text-left font-body text-sm transition-[background,color] duration-150 ${
                   mode === opt.mode
-                    ? 'bg-[var(--color-primary-light)] font-semibold text-[var(--color-text)]'
-                    : 'bg-transparent text-[var(--color-text-muted)] hover:bg-[var(--color-bg)] hover:text-[var(--color-text)]'
+                    ? 'bg-(--color-primary-light) font-semibold text-(--color-text)'
+                    : 'bg-transparent text-(--color-text-muted) hover:bg-(--color-bg) hover:text-(--color-text)'
                 }`}
               >
                 {opt.icon}
@@ -128,7 +128,7 @@ function NavLink({ href, label }: { href: string; label: string }) {
   return (
     <button
       onClick={() => scrollTo(href)}
-      className="cursor-pointer whitespace-nowrap rounded-lg border-none bg-transparent px-3.5 py-2 font-body text-sm font-medium tracking-wide text-[var(--color-text-muted)] transition-[color,background] duration-200 hover:bg-[var(--color-bg)] hover:text-[var(--color-text)]"
+      className="cursor-pointer whitespace-nowrap rounded-lg border-none bg-transparent px-3.5 py-2 font-body text-sm font-medium tracking-wide text-(--color-text-muted) transition-[color,background] duration-200 hover:bg-(--color-bg) hover:text-(--color-text)"
     >
       {label}
     </button>
@@ -159,16 +159,16 @@ export default function Navbar() {
   return (
     <>
       {/* ── Full-width fixed strip — transparent, no interaction ── */}
-      <div className="fixed inset-x-0 top-3.5 z-[100] px-3.5">
+      <div className="fixed inset-x-0 top-3.5 z-100 px-3.5">
         <motion.header
           initial={{ y: -72, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.55, ease: 'easeOut', delay: 0.05 }}
           role="banner"
-          className={`mx-auto flex h-[58px] max-w-[1200px] items-center justify-between gap-4 rounded-2xl border border-[var(--color-border)] px-5 backdrop-blur-[18px] transition-[background,box-shadow] duration-300 md:px-6 ${
+          className={`mx-auto flex h-14.5 max-w-300 items-center justify-between gap-4 rounded-2xl border border-(--color-border) px-5 backdrop-blur-[18px] transition-[background,box-shadow] duration-300 md:px-6 ${
             scrolled
-              ? 'bg-[var(--nav-bg-scrolled)] shadow-[var(--nav-shadow)]'
-              : 'bg-[var(--nav-bg)] shadow-[var(--shadow-neu-sm)]'
+              ? 'bg-(--nav-bg-scrolled) shadow-(--nav-shadow)'
+              : 'bg-(--nav-bg) shadow-(--shadow-neu-sm)'
           }`}
         >
           {/* Brand */}
@@ -179,7 +179,7 @@ export default function Navbar() {
             className="flex shrink-0 items-center gap-2 no-underline"
           >
             <BrandMark />
-            <span className="font-heading text-xl font-semibold leading-none tracking-wide text-[var(--color-text)]">
+            <span className="font-heading text-xl font-semibold leading-none tracking-wide text-(--color-text)">
               Sailor Labs
             </span>
           </a>
@@ -203,7 +203,7 @@ export default function Navbar() {
               onClick={() => scrollTo('#contact')}
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
-              className="btn-cta hidden !py-[0.55rem] !px-5 !text-[0.78rem] md:inline-flex"
+              className="btn-cta-header btn-cta py-[0.55rem]! px-5! text-[0.78rem]! md:inline-flex"
             >
               Get in Touch
             </motion.button>
@@ -211,14 +211,14 @@ export default function Navbar() {
             {/* Mobile hamburger */}
             <button
               onClick={() => setMenuOpen((p) => !p)}
-              className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-[10px] border border-[var(--color-border)] bg-[var(--color-bg-card)] text-[var(--color-text)] shadow-[var(--shadow-neu-sm)] transition-[background,border-color] duration-200 md:hidden"
+              className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-[10px] border border-(--color-border) bg-(--color-bg-card) text-(--color-text) shadow-(--shadow-neu-sm) transition-[background,border-color] duration-200 md:hidden"
               aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
               aria-expanded={menuOpen}
               aria-controls="mobile-nav"
             >
               <motion.div
                 animate={menuOpen ? 'open' : 'closed'}
-                className="flex w-4 flex-col gap-[5px]"
+                className="flex w-4 flex-col gap-1.25"
               >
                 <motion.span
                   variants={{ closed: { rotate: 0, y: 0 }, open: { rotate: 45, y: 7 } }}
@@ -254,11 +254,11 @@ export default function Navbar() {
               transition={{ duration: 0.22 }}
               onClick={() => setMenuOpen(false)}
               aria-hidden="true"
-              className="fixed inset-0 z-[98] bg-black/25 backdrop-blur-sm"
+              className="fixed inset-0 z-98 bg-black/25 backdrop-blur-sm"
             />
 
             {/* Drawer — same width constraint as the header */}
-            <div className="fixed inset-x-0 z-[99] px-3.5 top-[calc(0.875rem+58px+0.5rem)]">
+            <div className="fixed inset-x-0 z-99 px-3.5 top-[calc(0.875rem+58px+0.5rem)]">
               <motion.nav
                 key="mobile-nav"
                 id="mobile-nav"
@@ -267,7 +267,7 @@ export default function Navbar() {
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.25, ease: 'easeOut' }}
                 aria-label="Mobile navigation"
-                className="mx-auto flex max-w-[1200px] flex-col gap-1 rounded-2xl border border-[var(--color-border)] bg-[var(--nav-mobile-bg)] p-4 shadow-[var(--shadow-neu)]"
+                className="mx-auto flex max-w-300 flex-col gap-1 rounded-2xl border border-(--color-border) bg-(--nav-mobile-bg) p-4 shadow-(--shadow-neu)"
               >
                 {NAV_LINKS.map((link, i) => (
                   <motion.button
@@ -276,7 +276,7 @@ export default function Navbar() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.05, duration: 0.2, ease: 'easeOut' }}
                     onClick={() => handleMobileLink(link.href)}
-                    className="flex w-full cursor-pointer items-center justify-between rounded-xl border-none bg-transparent px-4 py-3 text-left font-body text-base font-medium text-[var(--color-text-muted)] transition-[background,color] duration-150 hover:bg-[var(--color-bg)] hover:text-[var(--color-text)]"
+                    className="flex w-full cursor-pointer items-center justify-between rounded-xl border-none bg-transparent px-4 py-3 text-left font-body text-base font-medium text-(--color-text-muted) transition-[background,color] duration-150 hover:bg-(--color-bg) hover:text-(--color-text)"
                   >
                     {link.label}
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
@@ -285,14 +285,14 @@ export default function Navbar() {
                   </motion.button>
                 ))}
 
-                <div className="my-1 h-px bg-[var(--color-border)]" aria-hidden="true" />
+                <div className="my-1 h-px bg-(--color-border)" aria-hidden="true" />
 
                 <motion.button
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: NAV_LINKS.length * 0.05 + 0.05, duration: 0.22 }}
                   onClick={() => handleMobileLink('#contact')}
-                  className="btn-cta w-full !justify-center"
+                  className="btn-cta w-full justify-center!"
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
                     <path d="m22 2-7 20-4-9-9-4 20-7z" /><path d="M22 2 11 13" />

@@ -39,7 +39,7 @@ const PRODUCTS: Product[] = [
     id: "vibemessage",
     tag: "Messaging",
     title: "Vibe Message",
-    tagline: "Express more with animated, styled messages",
+    tagline: "sending notification with ease",
     description:
       "A powerful, enterprise-grade notification backend designed for modern web applications. Deliver instant, reliable messages with absolute precision and security.",
     url: "https://vibemessage.sailorlabs.in/",
@@ -231,7 +231,7 @@ export default function Services() {
                   {p.features.map((f) => (
                     <span
                       key={f}
-                      className="rounded-full border border-(--color-border) bg-(--color-bg) px-2.5 py-0.5 font-body text-[0.68rem] text-(--color-text-subtle)"
+                      className="rounded-full font-semibold border border-(--color-border) bg-(--color-bg) px-2.5 py-0.5 font-body text-[0.68rem] text-(--color-text-subtle)"
                     >
                       {f}
                     </span>

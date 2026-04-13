@@ -18,7 +18,7 @@ function CodeBadge({ children }: { children: React.ReactNode }) {
   return (
     <motion.span
       whileHover={{ scale: 1.05, y: -2 }}
-      className="inline-flex cursor-default items-center gap-1.5 whitespace-nowrap rounded-md border border-[var(--color-border)] bg-[var(--color-bg-elevated)] px-2.5 py-1 font-mono text-xs text-[var(--color-secondary-dark)] shadow-[var(--shadow-neu-sm)] transition-shadow duration-200 hover:shadow-[var(--shadow-neu)]"
+      className="inline-flex cursor-default items-center gap-1.5 whitespace-nowrap rounded-md border border-(--color-border) bg-(--color-bg-elevated) px-2.5 py-1 font-mono text-xs text-(--color-secondary-dark) shadow-(--shadow-neu-sm) transition-shadow duration-200 hover:shadow-(--shadow-neu)"
     >
       {children}
     </motion.span>
@@ -35,7 +35,7 @@ function ScrollIndicator() {
       aria-label="Scroll to products"
       className="absolute bottom-8 left-1/2 -translate-x-1/2 flex cursor-pointer flex-col items-center gap-1.5 border-none bg-transparent p-2"
     >
-      <span className="font-body text-[0.68rem] uppercase tracking-[0.18em] text-[var(--color-text-subtle)]">
+      <span className="font-body text-[0.68rem] uppercase tracking-[0.18em] text-(--color-text-subtle)">
         Explore
       </span>
       <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}>
@@ -73,7 +73,7 @@ function Counter({ to, suffix = '' }: { to: number; suffix?: string }) {
   }, [to]);
 
   return (
-    <p ref={ref} className="font-heading text-[1.55rem] font-semibold leading-none text-[var(--color-text)]">
+    <p ref={ref} className="font-body text-[1.2rem] font-semibold leading-none text-(--color-text)">
       {count}{suffix}
     </p>
   );
@@ -99,16 +99,16 @@ export default function Hero() {
     <section
       id="hero"
       aria-labelledby="hero-heading"
-      className="relative flex min-h-svh items-center justify-center overflow-hidden bg-[var(--color-bg)] px-6 pb-20 pt-24 transition-colors duration-300"
+      className="relative flex min-h-svh items-center justify-center overflow-hidden bg-(--color-bg) pb-20 pt-24 transition-colors duration-300"
     >
       {/* Background shapes */}
       <FloatingShape
         delay={0.15}
-        className="h-[620px] w-[620px] -right-52 -top-40 bg-gradient-to-br from-[rgba(232,180,184,0.2)] to-[rgba(168,213,186,0.12)] blur-sm"
+        className="h-155 w-155 -right-52 -top-40 bg-linear-to-br from-[rgba(232,180,184,0.2)] to-[rgba(168,213,186,0.12)] blur-sm"
       />
       <FloatingShape
         delay={0.35}
-        className="h-[380px] w-[380px] -bottom-24 -left-28 bg-gradient-to-br from-[rgba(168,213,186,0.16)] to-[rgba(212,175,55,0.1)] blur-sm"
+        className="h-95 w-95 -bottom-24 -left-28 bg-linear-to-br from-[rgba(168,213,186,0.16)] to-[rgba(212,175,55,0.1)] blur-sm"
       />
       <FloatingShape
         delay={0.5}
@@ -126,7 +126,7 @@ export default function Hero() {
       />
 
       {/* Content */}
-      <div className="relative z-10 mx-auto w-full max-w-[880px] text-center">
+      <div className="relative z-10 mx-auto w-full max-w-220 text-center">
 
         {/* Badges */}
         <motion.div
@@ -134,7 +134,6 @@ export default function Hero() {
           className="mb-5 flex flex-wrap justify-center gap-2"
         >
           <span className="tag">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="var(--color-cta)" aria-hidden="true"><circle cx="12" cy="12" r="10" /></svg>
             Open Source
           </span>
           <span className="tag">3 Live Products</span>
@@ -144,7 +143,7 @@ export default function Hero() {
         {/* Eyebrow */}
         <motion.p
           variants={FADE_UP} initial="hidden" animate="visible" custom={0.2}
-          className="mb-2 block font-body text-[0.72rem] font-bold uppercase tracking-[0.2em] text-[var(--color-primary-dark)]"
+          className="mb-2 block font-body text-[0.72rem] font-bold uppercase tracking-[0.2em] text-(--color-primary-dark)"
         >
           Built with passion, shipped with purpose
         </motion.p>
@@ -153,11 +152,11 @@ export default function Hero() {
         <motion.h1
           id="hero-heading"
           variants={FADE_UP} initial="hidden" animate="visible" custom={0.3}
-          className="mb-5 font-heading text-5xl font-medium leading-[1.08] tracking-[-0.015em] text-[var(--color-text)] md:text-6xl lg:text-7xl"
+          className="mb-5 font-heading text-5xl font-medium leading-[1.08] tracking-[-0.015em] text-(--color-text) md:text-6xl lg:text-7xl"
         >
           Software that&nbsp;
           <motion.span
-            className="italic text-[var(--color-primary-dark)]"
+            className="italic text-(--color-primary-dark)"
             animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
             transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
           >
@@ -168,7 +167,7 @@ export default function Hero() {
         {/* Sub */}
         <motion.p
           variants={FADE_UP} initial="hidden" animate="visible" custom={0.42}
-          className="mx-auto mb-8 max-w-[600px] font-body text-base leading-[1.8] text-[var(--color-text-muted)] md:text-lg"
+          className="mx-auto mb-8 max-w-150 font-body text-base leading-[1.8] text-(--color-text-muted) md:text-lg"
         >
           Sailor Labs ships open-source tools and web apps that solve real problems simply — no bloat,
           no vendor lock-in, and no unnecessary complexity.
@@ -227,10 +226,10 @@ export default function Hero() {
             <motion.div
               key={stat.label}
               whileHover={{ y: -4, transition: { duration: 0.2 } }}
-              className="neu-card-sm min-w-[104px] px-5 py-4 text-center"
+              className="neu-card-sm min-w-26 px-5 py-4 text-center"
             >
               <Counter to={stat.value} suffix={stat.suffix} />
-              <p className="mt-1 font-body text-[0.67rem] uppercase tracking-[0.09em] text-[var(--color-text-muted)]">
+              <p className="mt-1 font-body text-[0.67rem] uppercase tracking-[0.09em] text-(--color-text-muted)">
                 {stat.label}
               </p>
             </motion.div>

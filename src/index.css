@@ -5,18 +5,18 @@
    ============================================================ */
 :root,
 [data-theme="light"] {
-  --color-primary: #E8B4B8;
+  --color-primary: #e8b4b8;
   --color-primary-dark: #c4878c;
   --color-primary-light: #f3d0d3;
-  --color-secondary: #A8D5BA;
+  --color-secondary: #a8d5ba;
   --color-secondary-dark: #6bab85;
   --color-secondary-light: #c4e4d1;
-  --color-cta: #D4AF37;
+  --color-cta: #d4af37;
   --color-cta-dark: #a8891c;
   --color-cta-light: #e8c84e;
 
   /* Surfaces */
-  --color-bg: #FFF5F5;
+  --color-bg: #fff5f5;
   --color-bg-card: #fef9f9;
   --color-bg-elevated: #fff;
 
@@ -55,7 +55,7 @@
   --color-secondary: #7fba9e;
   --color-secondary-dark: #a8d5ba;
   --color-secondary-light: #5c9a7e;
-  --color-cta: #D4AF37;
+  --color-cta: #d4af37;
   --color-cta-dark: #e8c84e;
   --color-cta-light: #f0d870;
 
@@ -81,7 +81,9 @@
   /* Nav glass */
   --nav-bg: rgba(15, 15, 19, 0.75);
   --nav-bg-scrolled: rgba(15, 15, 19, 0.95);
-  --nav-shadow: 4px 4px 16px #07070b, -2px -2px 10px #25252f, 0 0 0 1px rgba(255, 255, 255, 0.04);
+  --nav-shadow:
+    4px 4px 16px #07070b, -2px -2px 10px #25252f,
+    0 0 0 1px rgba(255, 255, 255, 0.04);
   --nav-mobile-bg: rgba(18, 18, 24, 0.99);
 
   /* Code / tag accent */
@@ -93,8 +95,8 @@
    Typography
    ============================================================ */
 @theme {
-  --font-heading: 'Cormorant Garamond', 'Georgia', serif;
-  --font-body: 'Montserrat', 'system-ui', sans-serif;
+  --font-heading: "Cormorant Garamond", "Georgia", serif;
+  --font-body: "Montserrat", "system-ui", sans-serif;
 }
 
 /* ============================================================
@@ -114,7 +116,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 h1,
@@ -187,6 +191,11 @@ h6 {
 /* ============================================================
    Buttons
    ============================================================ */
+@media (max-width: 465px) {
+  .btn-cta-header {
+    display: none !important;
+  }
+}
 .btn-cta {
   display: inline-flex;
   align-items: center;
@@ -202,7 +211,11 @@ h6 {
   border-radius: 50px;
   border: none;
   cursor: pointer;
-  transition: background 0.22s ease, box-shadow 0.22s ease, transform 0.18s ease, opacity 0.2s;
+  transition:
+    background 0.22s ease,
+    box-shadow 0.22s ease,
+    transform 0.18s ease,
+    opacity 0.2s;
   box-shadow: 0 4px 20px rgba(212, 175, 55, 0.35);
   text-decoration: none;
   white-space: nowrap;
@@ -229,7 +242,10 @@ h6 {
   border-radius: 50px;
   border: 1.5px solid var(--color-border);
   cursor: pointer;
-  transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+  transition:
+    background 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
   text-decoration: none;
   white-space: nowrap;
   line-height: 1;
@@ -314,7 +330,10 @@ h6 {
   border-radius: 12px;
   padding: 0.85rem 1.1rem;
   outline: none;
-  transition: border-color 0.22s ease, box-shadow 0.22s ease, background 0.3s ease;
+  transition:
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    background 0.3s ease;
   width: 100%;
 }
 
@@ -359,7 +378,7 @@ select.form-input {
    Code-style text
    ============================================================ */
 .code-text {
-  font-family: 'Courier New', 'Consolas', monospace;
+  font-family: "Courier New", "Consolas", monospace;
   font-size: 0.82rem;
   background: var(--color-bg-elevated);
   color: var(--color-secondary-dark);
@@ -372,8 +391,12 @@ select.form-input {
    Marquee animation
    ============================================================ */
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 /* ============================================================
@@ -387,7 +410,6 @@ select.form-input {
    Reduced Motion
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
-
   *,
   *::before,
   *::after {
